@@ -1,0 +1,28 @@
+body {
+  width: 100vw;
+  overflow: hidden;
+  text-align: center;
+}
+
+.main {
+  width: 800px;
+}
+
+.scores {
+  margin-top: 50px;
+}
+.scores table {
+  margin: 20px auto;
+  min-width: 500px;
+  border-collapse: collapse;
+}
+.scores td,
+.scores th {
+  border: 1px solid #ddd;
+  text-align: left;
+  font-size: 20px;
+  padding: 14px;
+}
+.scores tr:nth-child(even) {
+  background: #ddd;
+}

@@ -15,6 +15,10 @@ app.use(express.static("public"))
 let game = JSON.parse(await fs.readFile("./data/game.json"))
 let teams = JSON.parse(await fs.readFile("./data/teams.json"))
 
+for(let team in teams) {
+    teams[team].connected = false
+}
+
 let boardLayout = { revealed: [], scrambled: [] }
 scrambleBoard()
 
@@ -78,11 +82,16 @@ app.post("/api/round", (req, res) => {
 
 io.on("connection", socket => {
 	console.log("New connection")
+    if(socket.data.teamID) {
+        teams[socket.data.teamID].connected = true
+    }
 	sendGame()
+    sendBoard()
 
 	socket.on("join-team", id => {
 		if (!teams[id]) return socket.emit("invalid-team")
 		socket.data.teamID = id
+        teams[id].connected = true
 		socket.emit("join-team", { team: teams[id], id })
 		sendBoard()
 		sendGame()
@@ -94,7 +103,7 @@ io.on("connection", socket => {
 			id = Math.random().toString(36).slice(2)
 		} while (teams[id])
 
-		teams[id] = { name, score: 0 }
+		teams[id] = { name, score: 0, connected: true }
 
 		socket.emit("join-team", { team: teams[id], id })
 		sendBoard()
@@ -212,6 +221,13 @@ io.on("connection", socket => {
         sendGame()
         io.emit("refresh")
         await fs.writeFile("./data/game.json", JSON.stringify(game, null, 4))
+    })
+
+    socket.on("disconnect", () => {
+        if(socket.data.teamID) {
+            teams[socket.data.teamID].connected = false
+            sendGame()
+        }
     })
 })
 

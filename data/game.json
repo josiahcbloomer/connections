@@ -56,7 +56,7 @@
             ]
         },
         {
-            "turn": 0,
+            "turn": 2,
             "board": [
                 {
                     "description": "THINGS THAT ARE FUZZY",
@@ -86,7 +86,7 @@
                         "OGRE",
                         "PRINCESS"
                     ],
-                    "revealed": false
+                    "revealed": true
                 },
                 {
                     "description": "MAGIC ___",
@@ -96,10 +96,40 @@
                         "MARKER",
                         "MUSHROOM"
                     ],
-                    "revealed": false
+                    "revealed": true
                 }
             ],
             "guesses": [
+                {
+                    "1b35wmm1p8w": {
+                        "submitted": true,
+                        "guess": "memer",
+                        "words": [
+                            "MARKER",
+                            "KINGDOM",
+                            "PIPE CLEANER",
+                            "NUT"
+                        ],
+                        "correct": false,
+                        "category": null,
+                        "points": 0
+                    }
+                },
+                {
+                    "1b35wmm1p8w": {
+                        "submitted": true,
+                        "guess": "magic!",
+                        "words": [
+                            "MARKER",
+                            "MUSHROOM",
+                            "KINGDOM",
+                            "CARPET"
+                        ],
+                        "correct": true,
+                        "category": 3,
+                        "points": 1000
+                    }
+                },
                 {}
             ]
         }

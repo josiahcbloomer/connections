@@ -1,6 +1,22 @@
 {
     "ccmqdi70y5l": {
         "name": "Jimmy",
-        "score": 0
+        "score": 0,
+        "connected": false
+    },
+    "4lcizdqtak": {
+        "name": "Flibberty",
+        "score": 0,
+        "connected": false
+    },
+    "07jnnkcuxv73": {
+        "name": "Flibberty2",
+        "score": 0,
+        "connected": false
+    },
+    "1b35wmm1p8w": {
+        "name": "Mouse Mickey",
+        "score": 0,
+        "connected": true
     }
 }
