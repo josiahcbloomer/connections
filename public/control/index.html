@@ -6,14 +6,23 @@
     <title>Control | Connections</title>
 
     <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="./style.css">
 </head>
 <body>
     <h1>Control</h1>
-    Round:
-    <input type="number" id="round" value="1" />
+    Round: <span class="round-num"></span>
+    <br>
+    Turn: <span class="turn-num"></span>
+    <br>
+    <button class="next-button">Next Turn</button>
+    <br>
+    <button class="scramble">Scramble Board</button>
 
     <h2>Guesses:</h2>
     <div class="guesses"></div>
+
+    <h2>Categories:</h2>
+    <div class="categories"></div>
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="./script.js"></script>

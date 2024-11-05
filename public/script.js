@@ -11,6 +11,9 @@ if (localStorage.getItem("teamID")) {
     setPage("team")
 }
 
+let teamNameTitle = document.querySelector("h2.team-name")
+let teamScoreText = document.querySelector("p.team-score")
+
 let boardContainer = document.querySelector(".board")
 let submitButton = document.querySelector(".submit-button")
 let guessInput = document.querySelector(".guess-input")
@@ -91,8 +94,9 @@ function getSelectedTiles() {
     return selectedTiles.map(tile => tile.textContent)
 }
 
-socket.on("join-team", ({ id }) => {
+socket.on("join-team", ({ id, team }) => {
     teamID = id
+    teamNameTitle.textContent = `Team ${team.name}`
     localStorage.setItem("teamID", id)
     setPage("game")
 })
@@ -106,16 +110,19 @@ socket.on("update-board", ({ revealed, scrambled }) => {
     renderBoard({ revealed, scrambled })
 })
 
-socket.on("update-game", ({game}) => {
+socket.on("update-game", ({ game, teams }) => {
     if (game.round != currentRound) { // the round has changed
         currentRound = game.round
         guessInput.value = ""
     }
 
+    teamScoreText.textContent = `Score: ${teams[teamID].score}`
+
     // if my team's guess has been submitted, disable the board
     let round = game.rounds[game.round]
-    let guess = round.guesses[teamID]
-    console.log(round)
+    let turn = round.guesses[round.turn]
+    let guess = turn[teamID]
+
     if (guess && guess.submitted) {
         guessInput.disabled = true
         submitButton.disabled = true

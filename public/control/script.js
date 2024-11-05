@@ -1,25 +1,60 @@
 let socket = io()
 
-let roundInput = document.querySelector("input#round")
+let scrambleButton = document.querySelector("button.scramble")
+let nextButton = document.querySelector("button.next-button")
 
+let roundNum = document.querySelector(".round-num")
+let turnNum = document.querySelector(".turn-num")
+
+scrambleButton.addEventListener("click", () => {
+    socket.emit("scramble-board")
+})
+
+nextButton.addEventListener("click", () => {
+    socket.emit("next")
+})
+
+let categoriesContainer = document.querySelector(".categories")
 let guessesContainer = document.querySelector(".guesses")
 
 let categoryColors = "yellow.green.blue.purple".split(".")
 
 socket.on("update-game", ({game, teams}) => {
-    roundInput.value = (game.round + 1)
+    roundNum.textContent = game.round + 1
+    turnNum.textContent = game.rounds[game.round].turn + 1
 
     let round = game.rounds[game.round]
 
+    let categoriesRevealed = 0
+    for(let category of round.board) {
+        if (category.revealed) categoriesRevealed++
+    }
+
+    nextButton.textContent = categoriesRevealed >= 4 ? "Next Round" : "Next Turn"
+
+    renderGuesses(round, teams)
+    renderCategories(round.board)
+})
+
+function renderGuesses(round, teams) {
     guessesContainer.innerHTML = ""
-    for(let i in round.guesses) {
-        let guess = round.guesses[i]
+    let turn = round.guesses[round.turn]
+    for(let i in turn) {
+        let guess = turn[i]
 
         if (!teams[i]) continue
 
         let guessElement = document.createElement("div")
         guessElement.classList.add("guess")
         guessElement.dataset.team = i
+
+        let guessDelete = document.createElement("button")
+        guessDelete.classList.add("delete-button")
+        guessDelete.textContent = "Delete"
+        guessDelete.addEventListener("click", () => {
+            socket.emit("delete-guess", i)
+        })
+        guessElement.append(guessDelete)
 
         let guessTeam = document.createElement("h3")
         guessTeam.textContent = `Team ${teams[i].name}`
@@ -40,11 +75,11 @@ socket.on("update-game", ({game, teams}) => {
         guessElement.append(guessWords)
 
         let guessCategory = document.createElement("p")
-        guessCategory.textContent = `Guess: "${guess.guess === null ? "None" : guess.guess}"`
+        guessCategory.textContent = `Guess: "${guess.guess === null ? "None" : guess.guess.toUpperCase()}"`
         guessElement.append(guessCategory)
 
         let guessAnswer = document.createElement("p")
-        guessAnswer.textContent = `Actual Category: "${guess.category === null ? "N/A" : round.board[guess.category].description}"`
+        guessAnswer.textContent = `Actual Category: ${guess.category === null ? "N/A" : round.board[guess.category].description}`
         guessElement.append(guessAnswer)
 
         let correctLabel = document.createElement("label")
@@ -68,4 +103,43 @@ socket.on("update-game", ({game, teams}) => {
 
         guessesContainer.append(guessElement)
     }
-})
+}
+
+function renderCategories(board) {
+    categoriesContainer.innerHTML = ""
+
+    for(let category of board) {
+        let categoryElement = document.createElement("div")
+        categoryElement.classList.add("category")
+        categoryElement.classList.add(categoryColors[board.indexOf(category)])
+
+        let leftContainer = document.createElement("div")
+        leftContainer.classList.add("left")
+
+        let title = document.createElement("h3")
+        title.textContent = category.description
+
+        let words = document.createElement("p")
+        words.textContent = category.words.join(", ")
+
+        leftContainer.append(title, words)
+
+        let rightContainer = document.createElement("div")
+        rightContainer.classList.add("right")
+
+        let revealButton = document.createElement("button")
+        revealButton.classList.add("darker")
+        revealButton.textContent = category.revealed ? "Hide" : "Reveal"
+        revealButton.addEventListener("click", () => {
+            socket.emit("reveal-category", {
+                category: board.indexOf(category)
+            })
+        })
+
+        rightContainer.append(revealButton)
+
+        categoryElement.append(leftContainer, rightContainer)
+
+        categoriesContainer.append(categoryElement)
+    }
+}

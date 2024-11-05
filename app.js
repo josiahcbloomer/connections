@@ -45,7 +45,10 @@ io.on("connection", socket => {
     })
 
     socket.on("submit-guess", async ({ team, guess, words }) => {
-        game.rounds[game.round].guesses[team] = {
+        let round = game.rounds[game.round]
+        let turn = round.guesses[round.turn]
+
+        turn[team] = {
             submitted: true,
             guess, words,
             correct: false,
@@ -53,24 +56,69 @@ io.on("connection", socket => {
             points: 0,
         }
 
-        calculateRoundPoints()
+        calculateTurnPoints()
 
         sendGame()
 
         await fs.writeFile("./data/game.json", JSON.stringify(game, null, 4))
     })
 
-    socket.on("reveal-category", async category => {
-        game.rounds[game.round].board[category].revealed = true
+    socket.on("delete-guess", async team => {
+        let round = game.rounds[game.round]
+        let turn = round.guesses[round.turn]
+        delete turn[team]
+
+        calculateTurnPoints()
+        sendGame()
+
+        await fs.writeFile("./data/game.json", JSON.stringify(game, null, 4))
+    })
+
+    socket.on("reveal-category", async ({ category }) => {
+        let round = game.rounds[game.round]
+        let boardCategory = round.board[category]
+        if (boardCategory.revealed) {
+            boardCategory.revealed = false
+            scrambleBoard()
+        } else {
+            boardCategory.revealed = true
+            updateBoard()
+        }
         sendBoard()
         sendGame()
 
         await fs.writeFile("./data/game.json", JSON.stringify(game, null, 4))
     })
 
+    socket.on("scramble-board", async () => {
+        scrambleBoard()
+        sendBoard()
+    })
+
+    socket.on("next", () => {
+        let categoriesRevealed = 0
+        let round = game.rounds[game.round]
+        for(let category of round.board) {
+            if (category.revealed) categoriesRevealed++
+        }
+
+        applyTurnPoints()
+
+        if (categoriesRevealed >= 4) {
+            game.round++
+        } else {
+            round.turn++
+            round.guesses[round.turn] = {}
+        }
+
+        sendGame()
+    })
+
     socket.on("update-guess-correct", async ({ team, correct }) => {
-        game.rounds[game.round].guesses[team].correct = correct
-        calculateRoundPoints()
+        let round = game.rounds[game.round]
+        let turn = round.guesses[round.turn]
+        turn[team].correct = correct
+        calculateTurnPoints()
         sendGame()
 
         await fs.writeFile("./data/game.json", JSON.stringify(game, null, 4))
@@ -109,6 +157,33 @@ function scrambleBoard() {
     boardLayout = { revealed: revealedCategories, scrambled: scrambledTiles }
 }
 
+function updateBoard() {
+    let round = game.rounds[game.round]
+    let board = round.board
+
+    // full list of tiles
+    let revealedCategories = []
+    let scrambledTiles = []
+
+    // add all the tiles to the list
+    for(let row of board) {
+        if (row.revealed) {
+            revealedCategories.push({
+                description: row.description,
+                words: row.words,
+                color: board.indexOf(row)
+            })
+        }
+    }
+
+    for(let tile of boardLayout.scrambled) {
+        if (revealedCategories.some(category => category.words.includes(tile))) continue
+        scrambledTiles.push(tile)
+    }
+
+    boardLayout = { revealed: revealedCategories, scrambled: scrambledTiles }
+}
+
 function sendBoard() {
     io.emit("update-board", boardLayout)
 }
@@ -124,9 +199,10 @@ function findGuessCategories() {
     // if not, guess.category remains null
 
     let round = game.rounds[game.round]
+    let turn = round.guesses[round.turn]
     
-    for(let team in round.guesses) {
-        let guess = round.guesses[team]
+    for(let team in turn) {
+        let guess = turn[team]
         let category = null
 
         for(let i = 0; i < round.board.length; i++) {
@@ -142,16 +218,17 @@ function findGuessCategories() {
     }
 }
 
-function calculateRoundPoints() {
+function calculateTurnPoints() {
     // if a guess is correct, the points get split between all teams that guessed that category correctly.
 
     findGuessCategories()
 
     let round = game.rounds[game.round]
+    let turn = round.guesses[round.turn]
     let correctCategories = {}
 
-    for(let team in round.guesses) {
-        let guess = round.guesses[team]
+    for(let team in turn) {
+        let guess = turn[team]
 
         if (guess.correct) {
             if (!correctCategories[guess.category]) correctCategories[guess.category] = []
@@ -166,15 +243,26 @@ function calculateRoundPoints() {
         let teams = correctCategories[category]
 
         for(let team of teams) {
-            teamPoints[team] = points / teams.length
+            teamPoints[team] = Math.round(points / teams.length)
         }
     }
 
-    for(let team in round.guesses) {
-        round.guesses[team].points = teamPoints[team] || 0
+    for(let team in turn) {
+        turn[team].points = teamPoints[team] || 0
     }
 
     return teamPoints
+}
+
+function applyTurnPoints() {
+    calculateTurnPoints()
+
+    let round = game.rounds[game.round]
+    let turn = round.guesses[round.turn]
+
+    for(let team in turn) {
+        teams[team].score += turn[team].points
+    }
 }
 
 server.listen(3000, () => console.log("Server running on port 3000"))

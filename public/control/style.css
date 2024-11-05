@@ -1,0 +1,57 @@
+.guesses .guess {
+  position: relative;
+  display: inline-block;
+  margin: 15px;
+  padding: 10px;
+  border-radius: 7px;
+  background: #eee;
+}
+.guesses .guess h3 {
+  margin-top: 0;
+}
+.guesses .guess .delete-button {
+  position: absolute;
+  right: 15px;
+  top: 12px;
+  font-size: 10px;
+  padding: 6px;
+}
+.guesses .guess .delete-button:hover {
+  background: #ccc;
+}
+.guesses .guess .delete-button:active {
+  background: #bbb;
+}
+.guesses .guess .words {
+  margin-top: 5px;
+  margin-bottom: 15px;
+}
+.guesses .guess .words span {
+  padding: 4px;
+  margin: 2px;
+}
+.guesses .guess p,
+.guesses .guess label {
+  margin: 7px 0;
+}
+
+.category {
+  display: flex;
+  position: relative;
+  width: 500px;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  margin: 15px;
+  padding: 10px;
+  border-radius: 7px;
+}
+.category h3 {
+  margin: 0;
+}
+.category p {
+  margin: 0;
+}
+.category button {
+  font-size: 12px;
+  padding: 8px;
+}

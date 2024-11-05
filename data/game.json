@@ -2,47 +2,54 @@
     "round": 0,
     "rounds": [
         {
-            "guesses": {
-                "y83nouv3ork": {
-                    "submitted": true,
-                    "guess": "Testing",
-                    "words": [
-                        "CHARACTER",
-                        "PROVISION",
-                        "SHELL",
-                        "CANT"
-                    ],
-                    "correct": null,
-                    "category": null,
-                    "points": 0
+            "turn": 2,
+            "guesses": [
+                {
+                    "p2rcapvkqa": {
+                        "submitted": true,
+                        "guess": "Stuff you keep clothes in",
+                        "words": [
+                            "CONSOLE",
+                            "CHEST",
+                            "WARDROBE",
+                            "VANITY"
+                        ],
+                        "correct": true,
+                        "category": 2,
+                        "points": 700
+                    }
                 },
-                "p2rcapvkqa": {
-                    "submitted": true,
-                    "guess": "Supply",
-                    "words": [
-                        "OUTFIT",
-                        "PROVISION",
-                        "FURNISH",
-                        "STOCK"
-                    ],
-                    "correct": false,
-                    "category": 0,
-                    "points": 0
+                {
+                    "p2rcapvkqa": {
+                        "submitted": true,
+                        "guess": "Me",
+                        "words": [
+                            "EGO",
+                            "SELF",
+                            "BEING",
+                            "CHARACTER"
+                        ],
+                        "correct": true,
+                        "category": 1,
+                        "points": 300
+                    }
                 },
-                "lrpa3l15p2": {
-                    "submitted": true,
-                    "guess": "Supplies Closet",
-                    "words": [
-                        "FURNISH",
-                        "STOCK",
-                        "PROVISION",
-                        "OUTFIT"
-                    ],
-                    "correct": true,
-                    "category": 0,
-                    "points": 100
+                {
+                    "p2rcapvkqa": {
+                        "submitted": true,
+                        "guess": "contractions",
+                        "words": [
+                            "WERE",
+                            "SHELL",
+                            "ID",
+                            "CANT"
+                        ],
+                        "correct": true,
+                        "category": 3,
+                        "points": 1000
+                    }
                 }
-            },
+            ],
             "board": [
                 {
                     "description": "EQUIP",
@@ -62,7 +69,7 @@
                         "EGO",
                         "SELF"
                     ],
-                    "revealed": false
+                    "revealed": true
                 },
                 {
                     "description": "FURNITURE",

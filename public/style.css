@@ -14,6 +14,7 @@
   width: 600px;
   max-width: 100%;
   margin: 10px auto;
+  text-align: center;
 }
 
 .board {
@@ -24,7 +25,8 @@
   width: 100%;
   height: 400px;
 }
-.board .category, .board .tile {
+.board .category,
+.board .tile {
   padding: 10px;
   border-radius: 3px;
   display: flex;
@@ -38,18 +40,21 @@
   cursor: default;
 }
 @media only screen and (max-width: 620px) {
-  .board .category, .board .tile {
+  .board .category,
+  .board .tile {
     font-size: 16px;
   }
 }
 @media only screen and (max-width: 540px) {
-  .board .category, .board .tile {
+  .board .category,
+  .board .tile {
     font-size: 14px;
     padding: 6px;
   }
 }
 @media only screen and (max-width: 420px) {
-  .board .category, .board .tile {
+  .board .category,
+  .board .tile {
     font-size: 11px;
     padding: 4px;
   }
@@ -57,7 +62,8 @@
 .board .category {
   grid-column: span 4;
 }
-.board .category h3, .board .category p {
+.board .category h3,
+.board .category p {
   font-size: 20px;
   margin: 0;
 }
@@ -69,13 +75,35 @@
   color: #fff;
 }
 
-input, button {
+input,
+button {
   padding: 10px;
   border-radius: 3px;
-  background: #ddd;
+  background: #eee;
   border: none;
   outline: none;
   font-size: 20px;
+  margin: 5px;
+}
+input.darker,
+button.darker {
+  background: #ddd;
+}
+
+button {
+  cursor: pointer;
+}
+button:hover {
+  background: #ddd;
+}
+button:active {
+  background: #ccc;
+}
+button.darker:hover {
+  background: #ccc;
+}
+button.darker:active {
+  background: #bbb;
 }
 
 .guess-input {
@@ -109,26 +137,12 @@ input, button {
   text-align: center;
 }
 
-.guesses .guess {
-  display: inline-block;
-  margin: 15px;
-  padding: 10px;
-  border-radius: 7px;
-  background: #eee;
+.team-name {
+  margin-bottom: 0;
 }
-.guesses .guess h3 {
+
+.team-score {
   margin-top: 0;
-}
-.guesses .guess .words {
-  margin-top: 5px;
-  margin-bottom: 15px;
-}
-.guesses .guess .words span {
-  padding: 4px;
-  margin: 2px;
-}
-.guesses .guess p, .guesses .guess label {
-  margin: 7px 0;
 }
 
 .yellow {
