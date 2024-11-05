@@ -1,0 +1,20 @@
+{
+    "289384": [
+        {
+            "description": "EQUIP",
+            "words": ["FURNISH", "OUTFIT", "PROVISION", "STOCK"]
+        },
+        {
+            "description": "INDIVIDUALITY",
+            "words": ["BEING", "CHARACTER", "EGO", "SELF"]
+        },
+        {
+            "description": "FURNITURE",
+            "words": ["CHEST", "CONSOLE", "VANITY", "WARDROBE"]
+        },
+        {
+            "description": "WORDS WITH APOSTROPHES REMOVED",
+            "words": ["CANT", "ID", "SHELL", "WERE"]
+        }
+    ]
+}

@@ -1,0 +1,12 @@
+{
+    "teams": {
+        "round": 0,
+        "revealedCategories": [ false, false, false, false ],
+        "rounds": [
+            {
+                "guesses": {},
+                "board": "289384"
+            }
+        ]
+    }
+}
