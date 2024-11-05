@@ -67,6 +67,14 @@ io.on("connection", socket => {
 
         await fs.writeFile("./data/game.json", JSON.stringify(game, null, 4))
     })
+
+    socket.on("update-guess-correct", async ({ team, correct }) => {
+        game.rounds[game.round].guesses[team].correct = correct
+        calculateRoundPoints()
+        sendGame()
+
+        await fs.writeFile("./data/game.json", JSON.stringify(game, null, 4))
+    })
 })
 
 function scrambleBoard() {
@@ -162,8 +170,8 @@ function calculateRoundPoints() {
         }
     }
 
-    for(let team in teamPoints) {
-        round.guesses[team].points = teamPoints[team]
+    for(let team in round.guesses) {
+        round.guesses[team].points = teamPoints[team] || 0
     }
 
     return teamPoints

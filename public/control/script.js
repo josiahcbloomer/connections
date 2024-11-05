@@ -15,12 +15,13 @@ socket.on("update-game", ({game, teams}) => {
     for(let i in round.guesses) {
         let guess = round.guesses[i]
 
+        if (!teams[i]) continue
+
         let guessElement = document.createElement("div")
         guessElement.classList.add("guess")
         guessElement.dataset.team = i
 
         let guessTeam = document.createElement("h3")
-        console.log(teams, i)
         guessTeam.textContent = `Team ${teams[i].name}`
         guessElement.append(guessTeam)
 
@@ -40,6 +41,21 @@ socket.on("update-game", ({game, teams}) => {
         let guessCategory = document.createElement("p")
         guessCategory.textContent = `Category: ${guess.guess === null ? "None" : guess.guess}`
         guessElement.append(guessCategory)
+
+        let guessCorrect = document.createElement("input")
+        guessCorrect.type = "checkbox"
+        guessCorrect.checked = guess.correct
+        guessCorrect.addEventListener("change", () => {
+            socket.emit("update-guess-correct", {
+                team: i,
+                correct: guessCorrect.checked
+            })
+        })
+        guessElement.append(guessCorrect)
+
+        let guessPoints = document.createElement("p")
+        guessPoints.textContent = `Points from this round: ${guess.points}`
+        guessElement.append(guessPoints)
 
         guessesContainer.append(guessElement)
     }

@@ -25,9 +25,22 @@
                         "FURNISH",
                         "STOCK"
                     ],
-                    "correct": null,
+                    "correct": true,
                     "category": 0,
-                    "points": 0
+                    "points": 50
+                },
+                "lrpa3l15p2": {
+                    "submitted": true,
+                    "guess": "Supplies Closet",
+                    "words": [
+                        "FURNISH",
+                        "STOCK",
+                        "PROVISION",
+                        "OUTFIT"
+                    ],
+                    "correct": true,
+                    "category": 0,
+                    "points": 50
                 }
             },
             "board": [
