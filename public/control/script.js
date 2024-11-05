@@ -2,9 +2,15 @@ let socket = io()
 
 let scrambleButton = document.querySelector("button.scramble")
 let nextButton = document.querySelector("button.next-button")
+let resetButton = document.querySelector("button.reset")
 
 let roundNum = document.querySelector(".round-num")
 let turnNum = document.querySelector(".turn-num")
+
+resetButton.addEventListener("click", () => {
+    if (!confirm("Are you sure you want to reset the game?")) return
+    socket.emit("reset")
+})
 
 scrambleButton.addEventListener("click", () => {
     socket.emit("scramble-board")

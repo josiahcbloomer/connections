@@ -1,12 +1,61 @@
 .main-edit {
 	display: flex;
 	flex-wrap: nowrap;
-	width: 1000px;
+	width: 1100px;
 	height: 300px;
 }
 .rounds {
-	width: 200px;
+    display: flex;
+    flex-direction: column;
+    // justify-content: space-between;
+	width: 300px;
 	height: 100%;
+    padding-right: 8px;
+
+    .rounds-list {
+        flex-grow: 1;
+        overflow-y: auto;
+        scrollbar-width: thin;
+    }
+    .round {
+        background: #eee;
+        margin: 3px 0;
+        padding: 8px;
+        font-size: 18px;
+        user-select: none;
+        cursor: default;
+
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        p { flex-grow: 1; margin: 0 }
+        button {
+            padding: 6px;
+            font-size: 15px;
+            width: 32px;
+            height: 32px;
+            pointer-events: none;
+            opacity: 0;
+        }
+        
+
+        &:first-child { margin-top: 0 }
+        &:hover { background: #ddd }
+        &:active { background: #ccc }
+        &.selected {
+            background: #555;
+            color: #fff;
+            button {
+                pointer-events: all;
+            }
+            &:hover button { opacity: 1 }
+        }
+    }
+    .add-round {
+        width: 100%;
+        border-radius: none;
+        margin-bottom: 0;
+    }
 }
 .board {
 	width: 800px;

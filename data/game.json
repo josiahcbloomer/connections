@@ -1,84 +1,16 @@
 {
-    "round": 0,
+    "categoryPoints": [
+        100,
+        300,
+        700,
+        1000
+    ],
+    "round": 1,
     "rounds": [
         {
-            "turn": 4,
+            "turn": 0,
             "guesses": [
-                {
-                    "p2rcapvkqa": {
-                        "submitted": true,
-                        "guess": "Stuff you keep clothes in",
-                        "words": [
-                            "CONSOLE",
-                            "CHEST",
-                            "WARDROBE",
-                            "VANITY"
-                        ],
-                        "correct": true,
-                        "category": 2,
-                        "points": 700
-                    }
-                },
-                {
-                    "p2rcapvkqa": {
-                        "submitted": true,
-                        "guess": "Me",
-                        "words": [
-                            "EGO",
-                            "SELF",
-                            "BEING",
-                            "CHARACTER"
-                        ],
-                        "correct": true,
-                        "category": 1,
-                        "points": 300
-                    }
-                },
-                {
-                    "p2rcapvkqa": {
-                        "submitted": true,
-                        "guess": "contractions",
-                        "words": [
-                            "WERE",
-                            "SHELL",
-                            "ID",
-                            "CANT"
-                        ],
-                        "correct": true,
-                        "category": 3,
-                        "points": 1000
-                    }
-                },
-                {
-                    "p2rcapvkqa": {
-                        "submitted": true,
-                        "guess": "Give",
-                        "words": [
-                            "OUTFIT",
-                            "FURNISH",
-                            "PROVISION",
-                            "STOCK"
-                        ],
-                        "correct": false,
-                        "category": 0,
-                        "points": 0
-                    }
-                },
-                {
-                    "p2rcapvkqa": {
-                        "submitted": true,
-                        "guess": "Equip",
-                        "words": [
-                            "OUTFIT",
-                            "FURNISH",
-                            "PROVISION",
-                            "STOCK"
-                        ],
-                        "correct": true,
-                        "category": 0,
-                        "points": 100
-                    }
-                }
+                {}
             ],
             "board": [
                 {
@@ -97,7 +29,7 @@
                         "BEING",
                         "CHARACTER",
                         "EGO",
-                        "SELF"
+                        "STICK"
                     ],
                     "revealed": true
                 },
@@ -121,6 +53,54 @@
                     ],
                     "revealed": true
                 }
+            ]
+        },
+        {
+            "turn": 0,
+            "board": [
+                {
+                    "description": "THINGS THAT ARE FUZZY",
+                    "words": [
+                        "CATERPILLAR",
+                        "FLEECE",
+                        "PEACH",
+                        "PIPE CLEANER"
+                    ],
+                    "revealed": false
+                },
+                {
+                    "description": "THINGS WITH SHELLS",
+                    "words": [
+                        "CLAM",
+                        "EGG",
+                        "NUT",
+                        "TURTLE"
+                    ],
+                    "revealed": false
+                },
+                {
+                    "description": "FIGURES IN “SHREK”",
+                    "words": [
+                        "DONKEY",
+                        "DRAGON",
+                        "OGRE",
+                        "PRINCESS"
+                    ],
+                    "revealed": false
+                },
+                {
+                    "description": "MAGIC ___",
+                    "words": [
+                        "CARPET",
+                        "KINGDOM",
+                        "MARKER",
+                        "MUSHROOM"
+                    ],
+                    "revealed": false
+                }
+            ],
+            "guesses": [
+                {}
             ]
         }
     ]

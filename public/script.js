@@ -1,6 +1,6 @@
 let socket = io()
 
-let currentRound = 0
+let currentRound = 0, currentTurn = 0
 
 let teamID
 if (localStorage.getItem("teamID")) {
@@ -111,16 +111,18 @@ socket.on("update-board", ({ revealed, scrambled }) => {
 })
 
 socket.on("update-game", ({ game, teams }) => {
-    if (game.round != currentRound) { // the round has changed
+    let round = game.rounds[game.round]
+    let turn = round.guesses[round.turn]
+
+    if (game.round != currentRound || round.turn != currentTurn) { // the round has changed
         currentRound = game.round
+        currentTurn = round.turn
         guessInput.value = ""
     }
 
     teamScoreText.textContent = `Score: ${teams[teamID].score}`
 
     // if my team's guess has been submitted, disable the board
-    let round = game.rounds[game.round]
-    let turn = round.guesses[round.turn]
     let guess = turn[teamID]
 
     if (guess && guess.submitted) {
@@ -136,3 +138,5 @@ socket.on("update-game", ({ game, teams }) => {
         allowSelections = true
     }
 })
+
+socket.on("refresh", () => window.location.reload())
