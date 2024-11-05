@@ -1,0 +1,68 @@
+.main-edit {
+	display: flex;
+	flex-wrap: nowrap;
+	width: 1000px;
+	height: 300px;
+}
+.rounds {
+	width: 200px;
+	height: 100%;
+}
+.board {
+	width: 800px;
+	height: 100%;
+	display: flex;
+	flex-wrap: wrap;
+
+	.row {
+		width: 100%;
+		padding: 10px;
+		display: flex;
+		flex-wrap: nowrap;
+		align-items: center;
+
+		span.handle {
+			display: block;
+			width: 40px;
+			height: 40px;
+			cursor: grab;
+		}
+
+		label {
+			margin-left: 10px;
+		}
+
+		input {
+			padding: 8px;
+			font-size: 14px;
+            text-align: left;
+            text-transform: uppercase;
+		}
+		input.words {
+			flex-grow: 1;
+			// width: 100%;
+		}
+
+		&.ghost, &.drag {
+			background: #ddd;
+		}
+        &.chosen {
+            background: #aaa;
+        }
+
+		&:not(.ghost):not(.drag):not(.chosen) {
+			&:nth-child(1) {
+				background: #f9df6d;
+			}
+			&:nth-child(2) {
+				background: #a0c35a;
+			}
+			&:nth-child(3) {
+				background: #b0c4ef;
+			}
+			&:nth-child(4) {
+				background: #ba81c5;
+			}
+		}
+	}
+}

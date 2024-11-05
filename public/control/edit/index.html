@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Edit | Connections</title>
+
+		<link rel="stylesheet" href="/style.css" />
+		<link rel="stylesheet" href="./style.css" />
+	</head>
+	<body>
+		<a href="/control">< Back to Control</a>
+		<h1>Board Editor</h1>
+		<div class="main-edit">
+			<div class="rounds">
+				<h2>Rounds</h2>
+				<div class="rounds-list"></div>
+				<button class="add-round">Add Round</button>
+			</div>
+			<div class="board"></div>
+		</div>
+
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="./Sortable.min.js"></script>
+        <script src="./script.js"></script>
+	</body>
+</html>

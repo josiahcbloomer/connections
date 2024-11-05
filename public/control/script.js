@@ -49,7 +49,7 @@ function renderGuesses(round, teams) {
         guessElement.dataset.team = i
 
         let guessDelete = document.createElement("button")
-        guessDelete.classList.add("delete-button")
+        guessDelete.classList.add("delete-button", "darker")
         guessDelete.textContent = "Delete"
         guessDelete.addEventListener("click", () => {
             socket.emit("delete-guess", i)
@@ -128,7 +128,6 @@ function renderCategories(board) {
         rightContainer.classList.add("right")
 
         let revealButton = document.createElement("button")
-        revealButton.classList.add("darker")
         revealButton.textContent = category.revealed ? "Hide" : "Reveal"
         revealButton.addEventListener("click", () => {
             socket.emit("reveal-category", {

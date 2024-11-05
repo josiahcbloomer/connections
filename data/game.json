@@ -2,7 +2,7 @@
     "round": 0,
     "rounds": [
         {
-            "turn": 2,
+            "turn": 4,
             "guesses": [
                 {
                     "p2rcapvkqa": {
@@ -48,6 +48,36 @@
                         "category": 3,
                         "points": 1000
                     }
+                },
+                {
+                    "p2rcapvkqa": {
+                        "submitted": true,
+                        "guess": "Give",
+                        "words": [
+                            "OUTFIT",
+                            "FURNISH",
+                            "PROVISION",
+                            "STOCK"
+                        ],
+                        "correct": false,
+                        "category": 0,
+                        "points": 0
+                    }
+                },
+                {
+                    "p2rcapvkqa": {
+                        "submitted": true,
+                        "guess": "Equip",
+                        "words": [
+                            "OUTFIT",
+                            "FURNISH",
+                            "PROVISION",
+                            "STOCK"
+                        ],
+                        "correct": true,
+                        "category": 0,
+                        "points": 100
+                    }
                 }
             ],
             "board": [
@@ -59,7 +89,7 @@
                         "PROVISION",
                         "STOCK"
                     ],
-                    "revealed": false
+                    "revealed": true
                 },
                 {
                     "description": "INDIVIDUALITY",
@@ -89,7 +119,7 @@
                         "SHELL",
                         "WERE"
                     ],
-                    "revealed": false
+                    "revealed": true
                 }
             ]
         }

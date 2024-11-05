@@ -76,7 +76,9 @@
 }
 
 input,
-button {
+button, .button {
+  display: inline-block;
+  text-decoration: none;
   padding: 10px;
   border-radius: 3px;
   background: #eee;
@@ -84,25 +86,26 @@ button {
   outline: none;
   font-size: 20px;
   margin: 5px;
+  color: #000;
 }
 input.darker,
-button.darker {
+button.darker, .button.darker {
   background: #ddd;
 }
 
-button {
+button, .button {
   cursor: pointer;
 }
-button:hover {
+button:hover, .button:hover {
   background: #ddd;
 }
-button:active {
+button:active, .button:active {
   background: #ccc;
 }
-button.darker:hover {
+button.darker:hover, .button.darker:hover {
   background: #ccc;
 }
-button.darker:active {
+button.darker:active, .button.darker:active {
   background: #bbb;
 }
 

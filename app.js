@@ -17,6 +17,10 @@ let categoryPoints = [100, 300, 700, 1000]
 let boardLayout = { revealed: [], scrambled: [] }
 scrambleBoard()
 
+app.get("/api/game", (req, res) => {
+    res.json({ game, teams })
+})
+
 io.on("connection", socket => {
     console.log("New connection")
     sendGame()
@@ -112,6 +116,8 @@ io.on("connection", socket => {
         }
 
         sendGame()
+
+        fs.writeFile("./data/game.json", JSON.stringify(game, null, 4))
     })
 
     socket.on("update-guess-correct", async ({ team, correct }) => {
@@ -190,7 +196,6 @@ function sendBoard() {
 
 function sendGame() {
     io.emit("update-game", {game, teams})
-    // io.to("admin").emit("update-game", game)
 }
 
 function findGuessCategories() {

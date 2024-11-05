@@ -75,7 +75,9 @@
 }
 
 input,
-button {
+button, .button {
+    display: inline-block;
+    text-decoration: none;
 	padding: 10px;
 	border-radius: 3px;
 	background: #eee;
@@ -86,8 +88,9 @@ button {
 	outline: none;
 	font-size: 20px;
 	margin: 5px;
+    color: #000;
 }
-button {
+button, .button {
 	cursor: pointer;
 	&:hover {
 		background: #ddd;
