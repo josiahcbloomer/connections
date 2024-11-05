@@ -106,7 +106,7 @@ socket.on("update-board", ({ revealed, scrambled }) => {
     renderBoard({ revealed, scrambled })
 })
 
-socket.on("update-game", game => {
+socket.on("update-game", ({game}) => {
     if (game.round != currentRound) { // the round has changed
         currentRound = game.round
         guessInput.value = ""

@@ -19,6 +19,7 @@ scrambleBoard()
 
 io.on("connection", socket => {
     console.log("New connection")
+    sendGame()
     
     socket.on("join-team", id => {
         if (!teams[id]) return socket.emit("invalid-team")
@@ -28,7 +29,7 @@ io.on("connection", socket => {
         sendGame()
     })
 
-    socket.on("create-team", async name => {
+    socket.on("create-team", async ({name}) => {
         let id = ""
         do {
             id = Math.random().toString(36).slice(2)
@@ -105,7 +106,7 @@ function sendBoard() {
 }
 
 function sendGame() {
-    io.emit("update-game", game)
+    io.emit("update-game", {game, teams})
     // io.to("admin").emit("update-game", game)
 }
 
