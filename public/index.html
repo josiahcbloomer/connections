@@ -1,18 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connections</title>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Connections</title>
 
-    <link rel="stylesheet" href="./style.css">
-</head>
-<body>
-    <div class="page game">
-        <div class="board"></div>
-    </div>
+		<link rel="stylesheet" href="./style.css" />
+	</head>
+	<body>
+        <div class="page" data-page="team">
+            <h2>Enter your team name</h2>
+            <input type="text" class="team-input" placeholder="Team Name" />
+            <button class="team-submit">Join</button>
+        </div>
+		<div class="page" data-page="game">
+			<div class="main">
+				<div class="board"></div>
+                <p class="subtitle-above">Guess the category:</p>
+				<input type="text" class="guess-input" placeholder="Enter your guess" />
+                <button class="submit-button">Submit</button>
+			</div>
+		</div>
 
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="./script.js"></script>
-</body>
+		<script src="/socket.io/socket.io.js"></script>
+		<script src="./script.js"></script>
+	</body>
 </html>
