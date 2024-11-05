@@ -26,6 +26,7 @@ socket.on("update-game", ({game, teams}) => {
         guessElement.append(guessTeam)
 
         let guessWords = document.createElement("p")
+        guessWords.classList.add("words")
         for(let j = 0; j < guess.words.length; j++) {
             let wordCategory = round.board.findIndex(category => category.words.includes(guess.words[j]))
             let wordColor = categoryColors[wordCategory]
@@ -39,19 +40,27 @@ socket.on("update-game", ({game, teams}) => {
         guessElement.append(guessWords)
 
         let guessCategory = document.createElement("p")
-        guessCategory.textContent = `Category: ${guess.guess === null ? "None" : guess.guess}`
+        guessCategory.textContent = `Guess: "${guess.guess === null ? "None" : guess.guess}"`
         guessElement.append(guessCategory)
 
+        let guessAnswer = document.createElement("p")
+        guessAnswer.textContent = `Actual Category: "${guess.category === null ? "N/A" : round.board[guess.category].description}"`
+        guessElement.append(guessAnswer)
+
+        let correctLabel = document.createElement("label")
+        correctLabel.textContent = "Correct: "
         let guessCorrect = document.createElement("input")
         guessCorrect.type = "checkbox"
         guessCorrect.checked = guess.correct
+        guessCorrect.disabled = guess.category === null // if their guess is invalid, disable
         guessCorrect.addEventListener("change", () => {
             socket.emit("update-guess-correct", {
                 team: i,
                 correct: guessCorrect.checked
             })
         })
-        guessElement.append(guessCorrect)
+        correctLabel.append(guessCorrect)
+        guessElement.append(correctLabel)
 
         let guessPoints = document.createElement("p")
         guessPoints.textContent = `Points from this round: ${guess.points}`

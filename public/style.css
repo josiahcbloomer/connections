@@ -109,6 +109,28 @@ input, button {
   text-align: center;
 }
 
+.guesses .guess {
+  display: inline-block;
+  margin: 15px;
+  padding: 10px;
+  border-radius: 7px;
+  background: #eee;
+}
+.guesses .guess h3 {
+  margin-top: 0;
+}
+.guesses .guess .words {
+  margin-top: 5px;
+  margin-bottom: 15px;
+}
+.guesses .guess .words span {
+  padding: 4px;
+  margin: 2px;
+}
+.guesses .guess p, .guesses .guess label {
+  margin: 7px 0;
+}
+
 .yellow {
   background: #f9df6d;
 }

@@ -25,9 +25,9 @@
                         "FURNISH",
                         "STOCK"
                     ],
-                    "correct": true,
+                    "correct": false,
                     "category": 0,
-                    "points": 50
+                    "points": 0
                 },
                 "lrpa3l15p2": {
                     "submitted": true,
@@ -40,7 +40,7 @@
                     ],
                     "correct": true,
                     "category": 0,
-                    "points": 50
+                    "points": 100
                 }
             },
             "board": [

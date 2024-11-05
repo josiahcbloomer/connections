@@ -107,6 +107,30 @@ input, button {
     text-align: center;
 }
 
+.guesses {
+    .guess {
+        h3 {
+            margin-top: 0;
+        }
+        display: inline-block;
+        margin: 15px;
+        padding: 10px;
+        border-radius: 7px;
+        background: #eee;
+        .words {
+            span {
+                padding: 4px;
+                margin: 2px;
+            }
+            margin-top: 5px;
+            margin-bottom: 15px;
+        }
+        p, label {
+            margin: 7px 0;
+        }
+    }
+}
+
 .yellow { background: #f9df6d }
 .green  { background: #a0c35a }
 .blue   { background: #b0c4ef }

@@ -48,7 +48,7 @@ io.on("connection", socket => {
         game.rounds[game.round].guesses[team] = {
             submitted: true,
             guess, words,
-            correct: null,
+            correct: false,
             category: null,
             points: 0,
         }
