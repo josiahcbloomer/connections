@@ -1,39 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Control | Connections</title>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Control | Connections</title>
 
-    <link rel="stylesheet" href="/style.css">
-    <link rel="stylesheet" href="./style.css">
-</head>
-<body>
-    <h1>Control</h1>
-    Round: <span class="round-num"></span>
-    <br>
-    Turn: <span class="turn-num"></span>
-    <br>
-    <button class="scramble">Scramble Board</button><br>
-    <a class="button" href="/control/edit">Edit Rounds</a>
-    <button class="reset">Reset Entire Game</button>
+		<link rel="stylesheet" href="/style.css" />
+		<link rel="stylesheet" href="./style.css" />
+	</head>
+	<body>
+		<h1>Control</h1>
+		Round: <span class="round-num"></span>
+		<br />
+		Turn: <span class="turn-num"></span>
+		<br />
+		<button class="scramble">Scramble Board</button><br />
+		<a class="button" href="/control/edit">Edit Rounds</a>
+		<button class="reset">Reset Entire Game</button>
 
-    <h2>Guesses:</h2>
-    <div class="guesses"></div>
+		<h2>Guesses:</h2>
+		<div class="guesses"></div>
 
-    <h2>Categories:</h2>
-    <div class="categories"></div>
-    
-    <h2>Points:</h2>
-    <p class="sub">
-        Points for each category will be divided evenly among all teams who guessed it correctly.
-    </p>
-    <div class="points-control"></div>
-    
-    <br>
-    <button class="next-button">Next Turn</button>
+		<h2>Categories:</h2>
+		<div class="categories"></div>
 
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="./script.js"></script>
-</body>
+		<h2>Points:</h2>
+		<div class="split-points">
+            <input type="checkbox" class="split-points-checkbox" id="split-points-checkbox" checked />
+            <label for="split-points-checkbox">Split Points Mode</label><br>
+			<p class="sub"><em>If enabled, oints for each category will be divided evenly among all teams who guessed it correctly.</em></p>
+		</div>
+		<div class="points-control"></div>
+
+		<br />
+		<button class="next-button">Next Turn</button>
+
+		<script src="/socket.io/socket.io.js"></script>
+		<script src="./script.js"></script>
+	</body>
 </html>

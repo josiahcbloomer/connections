@@ -23,6 +23,15 @@ nextButton.addEventListener("click", () => {
 let categoriesContainer = document.querySelector(".categories")
 let guessesContainer = document.querySelector(".guesses")
 let pointsContainer = document.querySelector(".points-control")
+let splitPointsInput = document.querySelector(".split-points-checkbox")
+
+splitPointsInput.addEventListener("change", () => {
+    fetch("/api/split-points-mode", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ splitPointsMode: splitPointsInput.checked })
+    })
+})
 
 let categoryColors = "yellow.green.blue.purple".split(".")
 
@@ -38,6 +47,8 @@ socket.on("update-game", ({game, teams}) => {
     }
 
     nextButton.textContent = categoriesRevealed >= 4 ? "Next Round" : "Next Turn"
+
+    splitPointsInput.checked = game.splitPointsMode
 
     renderGuesses(round, teams)
     renderCategories(round.board)

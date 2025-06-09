@@ -92,6 +92,17 @@ app.put("/api/category-points", async (req, res) => {
     await fs.writeFile("./data/game.json", JSON.stringify(game, null, 4))
 })
 
+app.put("/api/split-points-mode", async (req, res) => {
+    const { splitPointsMode } = req.body
+    game.splitPointsMode = splitPointsMode
+    res.json({ game, teams })
+
+    calculateTurnPoints()
+    sendGame()
+
+    await fs.writeFile("./data/game.json", JSON.stringify(game, null, 4))
+})
+
 io.on("connection", socket => {
 	console.log("New connection")
     if(socket.data.teamID) {
@@ -360,7 +371,7 @@ function calculateTurnPoints() {
 		let teams = correctCategories[category]
 
 		for (let team of teams) {
-			teamPoints[team] = Math.round(points / teams.length)
+			teamPoints[team] = game.splitPointsMode ? Math.round(points / teams.length) : Math.round(points)
 		}
 	}
 
