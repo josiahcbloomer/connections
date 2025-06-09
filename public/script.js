@@ -19,6 +19,8 @@ let submitButton = document.querySelector(".submit-button")
 let guessInput = document.querySelector(".guess-input")
 let teamNameInput = document.querySelector(".team-input")
 let teamNameSubmit = document.querySelector(".team-submit")
+let waitingCanvas = document.querySelector("#waitingAnimation")
+let waitingAnimation
 
 teamNameSubmit.addEventListener("click", () => {
     socket.emit("create-team", { name: teamNameInput.value })
@@ -130,12 +132,20 @@ socket.on("update-game", ({ game, teams }) => {
         submitButton.disabled = true
         allowSelections = false
 
+        // Show waiting animation
+        waitingCanvas.classList.add('active');
+        if (!waitingAnimation) {
+            waitingAnimation = new WaitingAnimation(waitingCanvas);
+            waitingAnimation.animate();
+        }
+
         let tiles = boardContainer.querySelectorAll(".tile")
         tiles.forEach(tile => tile.classList.toggle("selected", guess.words.includes(tile.dataset.word)))
     } else {
         guessInput.disabled = false
         submitButton.disabled = false
         allowSelections = true
+        waitingCanvas.classList.remove('active');
     }
 })
 

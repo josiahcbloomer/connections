@@ -20,11 +20,13 @@
 				<div class="board"></div>
                 <p class="subtitle-above">Guess the category:</p>
 				<input type="text" class="guess-input" placeholder="Enter your guess" />
+                <canvas id="waitingAnimation" class="waiting-canvas"></canvas>
                 <button class="submit-button">Submit</button>
 			</div>
 		</div>
 
 		<script src="/socket.io/socket.io.js"></script>
+		<script src="./waiting-animation.js"></script>
 		<script src="./script.js"></script>
 	</body>
 </html>

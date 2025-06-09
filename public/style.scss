@@ -160,3 +160,19 @@ button, .button {
 .purple {
 	background: #ba81c5;
 }
+
+.waiting-canvas {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 100;
+    background: transparent;
+    backdrop-filter: blur(1px);
+    
+    &.active {
+        display: block;
+    }
+}
