@@ -80,6 +80,18 @@ app.post("/api/round", (req, res) => {
     res.json({ game, teams })
 })
 
+app.put("/api/category-points", async (req, res) => {
+    const { category, points } = req.body
+    game.categoryPoints[category] = points
+    
+    res.json({ game, teams })
+
+    calculateTurnPoints()
+    sendGame()
+
+    await fs.writeFile("./data/game.json", JSON.stringify(game, null, 4))
+})
+
 io.on("connection", socket => {
 	console.log("New connection")
     if(socket.data.teamID) {
@@ -224,7 +236,7 @@ io.on("connection", socket => {
     })
 
     socket.on("disconnect", () => {
-        if(socket.data.teamID) {
+        if(socket.data.teamID && teams[socket.data.teamID]) {
             teams[socket.data.teamID].connected = false
             sendGame()
         }

@@ -22,6 +22,7 @@ nextButton.addEventListener("click", () => {
 
 let categoriesContainer = document.querySelector(".categories")
 let guessesContainer = document.querySelector(".guesses")
+let pointsContainer = document.querySelector(".points-control")
 
 let categoryColors = "yellow.green.blue.purple".split(".")
 
@@ -40,7 +41,34 @@ socket.on("update-game", ({game, teams}) => {
 
     renderGuesses(round, teams)
     renderCategories(round.board)
+    renderPoints(game.categoryPoints)
 })
+
+function renderPoints(categoryPoints) {
+    pointsContainer.innerHTML = ""
+    categoryColors.forEach((color, i) => {
+        let pointsDiv = document.createElement("div")
+        pointsDiv.classList.add("point-control", color)
+        
+        let pointsLabel = document.createElement("label")
+        pointsLabel.textContent = `${color.charAt(0).toUpperCase() + color.slice(1)}: `
+        let pointsInput = document.createElement("input")
+        pointsInput.type = "number"
+        pointsInput.value = categoryPoints[i]
+        pointsInput.addEventListener("change", () => {
+            fetch("/api/category-points", {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    category: i,
+                    points: parseInt(pointsInput.value)
+                })
+            })
+        })
+        pointsDiv.append(pointsLabel, pointsInput)
+        pointsContainer.append(pointsDiv)
+    })
+}
 
 function renderGuesses(round, teams) {
     guessesContainer.innerHTML = ""
