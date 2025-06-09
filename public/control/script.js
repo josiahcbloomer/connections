@@ -16,9 +16,7 @@ scrambleButton.addEventListener("click", () => {
     socket.emit("scramble-board")
 })
 
-nextButton.addEventListener("click", () => {
-    socket.emit("next")
-})
+nextButton.addEventListener("click", () => socket.emit("next"))
 
 let categoriesContainer = document.querySelector(".categories")
 let guessesContainer = document.querySelector(".guesses")
