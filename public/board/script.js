@@ -40,20 +40,41 @@ function renderBoard({ revealed, scrambled }) {
 
 function renderScores({ game, teams }) {
     scoresTable.innerHTML = `<tr><th>Team</th><th>Score</th><th>Guess In?</th></tr>`
-    for(let team in teams) {
+
+    let teamList = []
+    for (let teamID in teams) {
+        let team = teams[teamID]
+        if (team.connected) {
+            teamList.push({
+                name: team.name,
+                score: team.score,
+                connected: team.connected,
+                id: teamID,
+            })
+        }
+    }
+
+    teamList.sort((a, b) => {
+        if (a.score === b.score) {
+            return a.name.localeCompare(b.name)
+        }
+        return b.score - a.score
+    })
+
+    for (let team of teamList) {
         let row = document.createElement("tr")
         let name = document.createElement("td")
         let score = document.createElement("td")
         let guess = document.createElement("td")
 
-        if (!teams[team].connected) continue
+        if (!team.connected) continue
 
         let round = game.rounds[game.round]
         let turn = round.guesses[round.turn]
 
-        name.textContent = teams[team].name
-        score.textContent = teams[team].score
-        guess.textContent = turn[team] ? "Yes" : "No"
+        name.textContent = team.name
+        score.textContent = team.score
+        guess.textContent = turn[team.id] ? "Yes" : "No"
 
         row.append(name, score, guess)
         scoresTable.append(row)

@@ -135,6 +135,24 @@ io.on("connection", socket => {
 		await fs.writeFile("./data/teams.json", JSON.stringify(teams, null, 4))
 	})
 
+    socket.on("live-guess", ({ team, guess, words }) => {
+        let round = game.rounds[game.round]
+		let turn = round.guesses[round.turn]
+
+        console.log(guess, words)
+
+		turn[team] = {
+			submitted: false,
+			guess,
+			words,
+			correct: false,
+			category: null,
+			points: 0,
+		}
+
+        sendGame()
+    })
+
 	socket.on("submit-guess", async ({ team, guess, words }) => {
 		let round = game.rounds[game.round]
 		let turn = round.guesses[round.turn]
@@ -343,6 +361,8 @@ function findGuessCategories() {
 	// find the category that each guess belongs to
 	// it is only valid if all 4 words are of the same category
 	// if not, guess.category remains null
+
+    if (game.round <= -1) return
 
 	let round = game.rounds[game.round]
 	let turn = round.guesses[round.turn]

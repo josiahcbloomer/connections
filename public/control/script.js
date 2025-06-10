@@ -149,11 +149,11 @@ function renderGuesses(round, teams) {
 			})
 		})
 		correctLabel.append(guessCorrect)
-		guessElement.append(correctLabel)
+		if (guess.submitted) guessElement.append(correctLabel)
 
 		let guessPoints = document.createElement("p")
 		guessPoints.textContent = `Points from this round: ${guess.points}`
-		guessElement.append(guessPoints)
+		if (guess.submitted) guessElement.append(guessPoints)
 
 		guessesContainer.append(guessElement)
 	}

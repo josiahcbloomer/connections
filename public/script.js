@@ -28,6 +28,10 @@ teamNameSubmit.addEventListener("click", () => {
     socket.emit("create-team", { name: teamNameInput.value })
 })
 
+guessInput.addEventListener("input", () => {
+    sendUnfinishedGuess()
+})
+
 submitButton.addEventListener("click", () => {
     if (submitButton.disabled) return
     if (!guessInput.value.length) return console.log("No guess provided")
@@ -39,6 +43,16 @@ submitButton.addEventListener("click", () => {
         words: getSelectedTiles()
     })
 })
+
+function sendUnfinishedGuess() {
+    // if (submitButton.disabled) return
+
+    socket.emit("live-guess", {
+        team: teamID,
+        guess: guessInput.value,
+        words: getSelectedTiles()
+    })
+}
 
 let categoryColors = "yellow.green.blue.purple".split(".")
 
@@ -80,6 +94,8 @@ function renderBoard({ revealed, scrambled }) {
             if (getSelectedTiles().length > 4) {
                 tileElement.classList.remove("selected")
             }
+
+            sendUnfinishedGuess()
         })
 
         boardContainer.append(tileElement)
@@ -116,18 +132,21 @@ socket.on("update-board", ({ revealed, scrambled }) => {
 
 socket.on("update-game", ({ game, teams }) => {
     let round = game.rounds[game.round]
-    let turn = round.guesses[round.turn]
 
     if (!teamID) return
 
-    waitingForGame = round <= -1
+    waitingForGame = game.round <= -1
 
-    if (round <= -1) {
+    if (game.round <= -1) {
         setPage("wait")
         return
     } else {
         setPage("game")
     }
+    
+    if (!round) return
+    
+    let turn = round.guesses[round.turn]
 
     if (game.round != currentRound || round.turn != currentTurn) { // the round has changed
         currentRound = game.round
