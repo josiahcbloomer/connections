@@ -1,5 +1,8 @@
 let socket = io()
 
+let mainGame = document.querySelector(".main.game")
+let mainWait = document.querySelector(".main.wait")
+
 let boardContainer = document.querySelector(".board")
 let scoresTable = document.querySelector(".scores table")
 
@@ -64,4 +67,7 @@ socket.on("update-board", ({ revealed, scrambled }) => {
 socket.on("update-game", ({ game, teams }) => {
     console.log(teams)
     renderScores({ game, teams })
+
+    mainGame.classList.toggle("active", game.round >= 0)
+    mainWait.classList.toggle("active", game.round < 0)
 })

@@ -11,6 +11,8 @@ if (localStorage.getItem("teamID")) {
     setPage("team")
 }
 
+let waitingForGame = true
+
 let teamNameTitle = document.querySelector("h2.team-name")
 let teamScoreText = document.querySelector("p.team-score")
 
@@ -100,7 +102,7 @@ socket.on("join-team", ({ id, team }) => {
     teamID = id
     teamNameTitle.textContent = `Team ${team.name}`
     localStorage.setItem("teamID", id)
-    setPage("game")
+    setPage(waitingForGame ? "wait" : "game")
 })
 
 socket.on("invalid-team", () => {
@@ -115,6 +117,17 @@ socket.on("update-board", ({ revealed, scrambled }) => {
 socket.on("update-game", ({ game, teams }) => {
     let round = game.rounds[game.round]
     let turn = round.guesses[round.turn]
+
+    if (!teamID) return
+
+    waitingForGame = round <= -1
+
+    if (round <= -1) {
+        setPage("wait")
+        return
+    } else {
+        setPage("game")
+    }
 
     if (game.round != currentRound || round.turn != currentTurn) { // the round has changed
         currentRound = game.round

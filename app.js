@@ -188,6 +188,14 @@ io.on("connection", socket => {
 	})
 
 	socket.on("next", () => {
+        if (game.round <= -1) {
+            game.round = 0
+            sendGame()
+
+            fs.writeFile("./data/game.json", JSON.stringify(game, null, 4))
+            return
+        }
+
 		let categoriesRevealed = 0
 		let round = game.rounds[game.round]
 		for (let category of round.board) {
@@ -228,7 +236,7 @@ io.on("connection", socket => {
 	})
 
     socket.on("reset", async () => {
-        game.round = 0
+        game.round = -1
         for(let round of game.rounds) {
             round.turn = 0
             round.guesses = [{}]
@@ -253,9 +261,16 @@ io.on("connection", socket => {
             sendGame()
         }
     })
+
+    socket.on("refresh", () => {
+        io.emit("refresh")
+    })
 })
 
 function scrambleBoard() {
+    console.log("Scrambling board, round:", game.round)
+    if (game.round <= -1) return;
+
 	let round = game.rounds[game.round]
 	let board = round.board
 
@@ -288,6 +303,8 @@ function scrambleBoard() {
 }
 
 function updateBoard() {
+    if (game.round <= -1) return
+
 	let round = game.rounds[game.round]
 	let board = round.board
 
