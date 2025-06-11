@@ -1,6 +1,7 @@
 * {
 	box-sizing: border-box;
 	font-family: "Red Hat Text", sans-serif;
+    overflow: hidden;
 }
 
 .main {
@@ -13,10 +14,12 @@
 }
 
 .content {
+    position: relative;
 	height: 100vh;
 	flex-grow: 1;
+    text-align: left;
 }
-.right {
+.main > .right {
 	width: 450px;
 	height: 100vh;
 	flex-shrink: 0;
@@ -25,7 +28,7 @@
     overflow-y: auto;
 }
 
-.right .team {
+.main > .right .team {
 	position: relative;
 	background: #fff;
 	padding: 15px 5px;
@@ -96,4 +99,50 @@
     .correct-label * {
         display: inline-block;
     }
+}
+
+.category {
+	display: flex;
+	position: relative;
+	h3 {
+		margin: 0;
+        text-transform: uppercase;
+	}
+    p {
+        margin: 0;
+    }
+	button {
+		font-size: 12px;
+		padding: 8px;
+	}
+    width: 600px;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+	margin: 15px;
+	padding: 10px;
+	border-radius: 7px;
+}
+
+.point-control {
+    padding: 10px;
+    margin: 10px;
+    border-radius: 7px;
+    display: inline-block;
+
+    label {
+        font-size: 16px;
+    }
+
+    input[type="number"] {
+        width: 120px;
+        padding: 4px;
+        margin-left: 5px;
+        font-size: 16px;
+    }
+}
+
+.scary-controls {
+    position: absolute;
+    top: 10px;
+    right: 10px;
 }

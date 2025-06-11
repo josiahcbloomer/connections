@@ -2,13 +2,61 @@ let socket = io()
 
 let categoryColors = "yellow.green.blue.purple".split(".")
 let currentRound = -1
+let hasAssignedPoints = false
 
 let teamsList = document.querySelector(".teams-list")
+let pointsContainer = document.querySelector(".points-control")
+let categoriesContainer = document.querySelector(".categories")
+
+let scrambleButton = document.querySelector("button.scramble")
+let nextButton = document.querySelector("button.next-button")
+let resetButton = document.querySelector("button.reset")
+let refreshButton = document.querySelector("button.refresh-button")
+let splitPointsInput = document.querySelector(".split-points-checkbox")
+let pointsButton = document.querySelector(".points-button")
+
+let roundNum = document.querySelector(".round-num")
+let turnNum = document.querySelector(".turn-num")
 
 socket.on("update-game", ({ game, teams }) => {
 	currentRound = game.round
 
-	renderTeams(game, teams)
+    roundNum.textContent = game.round + 1
+
+    turnNum.textContent = "0"
+
+    splitPointsInput.checked = game.splitPointsMode
+
+    hasAssignedPoints = false
+    nextButton.disabled = false
+
+    if (game.round >= 0) {
+		turnNum.textContent = game.rounds[game.round].turn + 1
+
+        let round = game.rounds[game.round]
+
+        let categoriesRevealed = 0
+		for (let category of round.board) {
+			if (category.revealed) categoriesRevealed++
+		}
+
+        console.log("points assigned:", round.pointsAssigned)
+        hasAssignedPoints = round.pointsAssigned
+        pointsButton.disabled = false
+        pointsButton.textContent = hasAssignedPoints ? "Unassign Points" : "Assign Points"
+        nextButton.disabled = !hasAssignedPoints
+
+        nextButton.textContent = categoriesRevealed >= 4 ? "Next Round" : "Next Turn"
+
+        renderCategories(round.board)
+        renderPoints(game.categoryPoints)
+	    renderTeams(game, teams)
+    } else {
+	    renderTeams(game, teams)
+        renderPoints(game.categoryPoints)
+        nextButton.textContent = "Show First Round"
+        categoriesContainer.innerHTML = ""
+    }
 })
 
 function renderTeams(game, teams) {
@@ -48,7 +96,10 @@ function renderTeams(game, teams) {
 		removeTeamButton.classList.add("remove-team")
 		removeTeamButton.textContent = "x"
 		removeTeamButton.href = "javscript:void(0)"
-		removeTeamButton.addEventListener("click", () => removeTeamFromGame(team))
+		removeTeamButton.addEventListener("click", () => {
+            if (!confirm(`Are you sure you want to remove team ${team}?`)) return
+            socket.emit("remove-team", team)
+        })
 		teamElement.appendChild(removeTeamButton)
 
 		if (teams[team].connected) {
@@ -98,12 +149,14 @@ function renderTeams(game, teams) {
 						let correctContainer = document.createElement("div")
 						correctContainer.classList.add("correct-container")
 
+                        console.log("hello", hasAssignedPoints)
+
 						let correctLabel = document.createElement("label")
 						correctLabel.textContent = "Correct: "
 						let guessCorrect = document.createElement("input")
 						guessCorrect.type = "checkbox"
 						guessCorrect.checked = guess.correct
-						guessCorrect.disabled = !guess.category // if their guess is invalid, disable
+						guessCorrect.disabled = (!guess.category) || hasAssignedPoints // if their guess is invalid, disable
 						guessCorrect.addEventListener("change", () => {
                             console.log(team, guessCorrect.checked)
 							socket.emit("update-guess-correct", {
@@ -125,6 +178,7 @@ function renderTeams(game, teams) {
 						let unsubmitButton = document.createElement("button")
 						unsubmitButton.classList.add("unsubmit-button", "red")
 						unsubmitButton.textContent = "Unsubmit"
+                        unsubmitButton.disabled = hasAssignedPoints
 						unsubmitButton.addEventListener("click", () => {
 							socket.emit("unsubmit-guess", team)
 						})
@@ -143,3 +197,93 @@ function renderTeams(game, teams) {
 		teamsList.appendChild(teamElement)
 	}
 }
+
+function renderPoints(categoryPoints) {
+	pointsContainer.innerHTML = ""
+	categoryColors.forEach((color, i) => {
+		let pointsDiv = document.createElement("div")
+		pointsDiv.classList.add("point-control", color)
+
+		let pointsLabel = document.createElement("label")
+		pointsLabel.textContent = `${color.charAt(0).toUpperCase() + color.slice(1)}: `
+		let pointsInput = document.createElement("input")
+		pointsInput.type = "number"
+		pointsInput.value = categoryPoints[i]
+        pointsInput.disabled = hasAssignedPoints
+		pointsInput.addEventListener("change", () => {
+			fetch("/api/category-points", {
+				method: "PUT",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					category: i,
+					points: parseInt(pointsInput.value),
+				}),
+			})
+		})
+		pointsDiv.append(pointsLabel, pointsInput)
+		pointsContainer.append(pointsDiv)
+	})
+}
+
+function renderCategories(board) {
+	categoriesContainer.innerHTML = ""
+
+	for (let category of board) {
+		let categoryElement = document.createElement("div")
+		categoryElement.classList.add("category")
+		categoryElement.classList.add(categoryColors[board.indexOf(category)])
+
+		let leftContainer = document.createElement("div")
+		leftContainer.classList.add("left")
+
+		let title = document.createElement("h3")
+		title.textContent = category.description
+
+		let words = document.createElement("p")
+		words.textContent = category.words.join(", ")
+
+		leftContainer.append(title, words)
+
+		let rightContainer = document.createElement("div")
+		rightContainer.classList.add("right")
+
+		let revealButton = document.createElement("button")
+		revealButton.textContent = category.revealed ? "Hide" : "Reveal"
+		revealButton.addEventListener("click", () => {
+			socket.emit("reveal-category", {
+				category: board.indexOf(category),
+			})
+		})
+
+		rightContainer.append(revealButton)
+
+		categoryElement.append(leftContainer, rightContainer)
+
+		categoriesContainer.append(categoryElement)
+	}
+}
+
+resetButton.addEventListener("click", () => {
+	if (!confirm("Are you sure you want to reset the game?")) return
+	socket.emit("reset")
+})
+
+scrambleButton.addEventListener("click", () => {
+	socket.emit("scramble-board")
+})
+
+refreshButton.addEventListener("click", () => {
+	socket.emit("refresh")
+})
+
+pointsButton.addEventListener("click", () => socket.emit("assign-points"))
+
+nextButton.addEventListener("click", () => socket.emit("next"))
+
+splitPointsInput.addEventListener("change", () => {
+	fetch("/api/split-points-mode", {
+		method: "PUT",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify({ splitPointsMode: splitPointsInput.checked }),
+	})
+})

@@ -111,6 +111,17 @@ button.darker:active, .button.darker:active {
 button.red, .button.red {
   color: #a00;
 }
+button[disabled], .button[disabled] {
+  opacity: 0.7;
+  cursor: default;
+  background: #ddd;
+}
+button[disabled]:hover, .button[disabled]:hover {
+  background: #ddd;
+}
+button[disabled]:active, .button[disabled]:active {
+  background: #ddd;
+}
 
 .guess-input {
   margin: 20px auto;

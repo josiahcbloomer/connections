@@ -10,7 +10,33 @@
 	</head>
 	<body>
 		<div class="main">
-			<div class="content"></div>
+			<div class="content">
+				<button class="scramble">Scramble Board</button><br />
+				<a class="button" href="/control/edit">Edit Rounds</a>
+
+                <h2>Round <span class="round-num"></span>.<span class="turn-num"></span></h2>
+
+				<h2>Categories:</h2>
+				<div class="categories"></div>
+
+				<h2>Points:</h2>
+				<div class="split-points">
+					<input type="checkbox" class="split-points-checkbox" id="split-points-checkbox" checked />
+					<label for="split-points-checkbox">Split Points Mode</label><br />
+					<p class="sub">
+						<em>If enabled, points for each category will be divided evenly among all teams who guessed it correctly.</em>
+					</p>
+				</div>
+				<div class="points-control"></div>
+                <br>
+                <button class="points-button">Assign Points</button>
+                <button class="next-button">Next Turn</button>
+
+                <div class="scary-controls">
+				    <button class="refresh-button">Refresh All Clients</button>
+				    <button class="reset red">Reset Entire Game</button>
+                </div>
+			</div>
 			<div class="right teams">
 				<h2>Teams</h2>
 				<div class="teams-list"></div>

@@ -111,6 +111,18 @@ button, .button {
     &.red {
         color: #a00;
     }
+
+    &[disabled] {
+        opacity: .7;
+        cursor: default;
+        background: #ddd;
+        &:hover {
+            background: #ddd;
+        }
+        &:active {
+            background: #ddd;
+        }
+    }
 }
 
 .guess-input {

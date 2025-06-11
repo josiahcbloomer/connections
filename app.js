@@ -224,6 +224,24 @@ io.on("connection", socket => {
 		sendBoard()
 	})
 
+    socket.on("assign-points", async () => {
+        if (game.round <= -1) return
+
+        let round = game.rounds[game.round]
+
+        if (round.pointsAssigned) {
+            unapplyTurnPoints()
+            round.pointsAssigned = false
+        } else {
+            applyTurnPoints()
+            round.pointsAssigned = true
+        }
+
+        sendGame()
+
+        fs.writeFile("./data/game.json", JSON.stringify(game, null, 4))
+    })
+
 	socket.on("next", () => {
         if (game.round <= -1) {
             game.round = 0
@@ -239,8 +257,6 @@ io.on("connection", socket => {
 			if (category.revealed) categoriesRevealed++
 		}
 
-		applyTurnPoints()
-
 		if (categoriesRevealed >= 4) {
             if (game.round < game.rounds.length - 1) {
 			    game.round++
@@ -249,6 +265,7 @@ io.on("connection", socket => {
             } else console.log("no rounds left")
 		} else {
 			round.turn++
+            game.rounds[game.round].pointsAssigned = false
 			round.guesses[round.turn] = {}
 		}
 
@@ -279,10 +296,29 @@ io.on("connection", socket => {
         await fs.writeFile("./data/teams.json", JSON.stringify(teams, null, 4))
     })
 
+    socket.on("remove-team", async team => {
+        if (!teams[team]) return
+        delete teams[team]
+
+        // remove the team from the all round guesses
+        for (let round of game.rounds) {
+            for (let turn of round.guesses) {
+                if (turn[team]) {
+                    delete turn[team]
+                }
+            }
+        }
+
+        sendGame()
+        await fs.writeFile("./data/teams.json", JSON.stringify(teams, null, 4))
+        console.log("Removed team:", team)
+    })
+
     socket.on("reset", async () => {
         game.round = -1
         for(let round of game.rounds) {
             round.turn = 0
+            round.pointsAssigned = false
             round.guesses = [{}]
             for(let category of round.board) {
                 category.revealed = false
@@ -446,6 +482,18 @@ function calculateTurnPoints() {
 	return teamPoints
 }
 
+function unapplyTurnPoints() {
+    calculateTurnPoints()
+    let round = game.rounds[game.round]
+    let turn = round.guesses[round.turn]
+
+    for (let team in turn) {
+        teams[team].score -= turn[team].points
+    }
+
+    round.pointsAssigned = false
+}
+
 function applyTurnPoints() {
 	calculateTurnPoints()
 
@@ -455,6 +503,8 @@ function applyTurnPoints() {
 	for (let team in turn) {
 		teams[team].score += turn[team].points
 	}
+
+    round.pointsAssigned = true
 }
 
 server.listen(3040, () => console.log("Server running on port 3040"))
