@@ -108,6 +108,9 @@ button.darker:hover, .button.darker:hover {
 button.darker:active, .button.darker:active {
   background: #bbb;
 }
+button.red, .button.red {
+  color: #a00;
+}
 
 .guess-input {
   margin: 20px auto;

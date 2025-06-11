@@ -135,6 +135,8 @@ socket.on("update-game", ({ game, teams }) => {
 
     if (!teamID) return
 
+    teamNameTitle.textContent = `Team ${teams[teamID].name}`
+
     waitingForGame = game.round <= -1
 
     if (game.round <= -1) {

@@ -184,6 +184,25 @@ io.on("connection", socket => {
 		await fs.writeFile("./data/game.json", JSON.stringify(game, null, 4))
 	})
 
+    socket.on("unsubmit-guess", async team => {
+		let round = game.rounds[game.round]
+		let turn = round.guesses[round.turn]
+        turn[team].submitted = false
+
+		calculateTurnPoints()
+		sendGame()
+
+		await fs.writeFile("./data/game.json", JSON.stringify(game, null, 4))
+	})
+
+    socket.on("update-team-name", async ({ team, name }) => {
+        if (!teams[team]) return
+        teams[team].name = name
+        sendGame()
+        await fs.writeFile("./data/teams.json", JSON.stringify(teams, null, 4))
+        console.log("Updated team name:", team, name)
+    })
+
 	socket.on("reveal-category", async ({ category }) => {
 		let round = game.rounds[game.round]
 		let boardCategory = round.board[category]
@@ -252,6 +271,13 @@ io.on("connection", socket => {
 
 		await fs.writeFile("./data/game.json", JSON.stringify(game, null, 4))
 	})
+
+    socket.on("update-team-score", async ({ team, score }) => {
+        if (!teams[team]) return
+        teams[team].score = score
+        sendGame()
+        await fs.writeFile("./data/teams.json", JSON.stringify(teams, null, 4))
+    })
 
     socket.on("reset", async () => {
         game.round = -1
