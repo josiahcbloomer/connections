@@ -1,0 +1,99 @@
+* {
+	box-sizing: border-box;
+	font-family: "Red Hat Text", sans-serif;
+}
+
+.main {
+	width: 100vw;
+	height: 100vh;
+
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+}
+
+.content {
+	height: 100vh;
+	flex-grow: 1;
+}
+.right {
+	width: 450px;
+	height: 100vh;
+	flex-shrink: 0;
+	flex-grow: 0;
+	padding: 15px;
+    overflow-y: auto;
+}
+
+.right .team {
+	position: relative;
+	background: #fff;
+	padding: 15px 5px;
+	margin: 15px 0;
+	border-radius: 15px;
+	box-shadow: inset 28px 28px 60px #dedede, inset -28px -28px 60px #ffffff;
+
+	input.team-name {
+        background: none;
+        border: none;
+        outline: none;
+        padding: 5px;
+		margin-top: 0;
+		margin-bottom: 7px;
+		font-size: 24px;
+        text-align: center;
+        font-weight: 700;
+        &:hover, &:focus {
+            background: #0001;
+        }
+	}
+    .team-score {
+        margin: 7px 18px;
+        margin-bottom: 15px;
+        width: 150px;
+        font-size: 16px;
+        padding: 6px;
+    }
+    .guess-container {
+        &.not-submitted {
+            opacity: .6;
+        }
+    }
+	.guess-words {
+		.guess-word {
+			padding: 3px;
+			border-radius: 4px;
+			margin: 2px;
+		}
+	}
+    .guess-info {
+        margin-top: 0;
+    }
+	a.remove-team {
+		position: absolute;
+		top: 8px;
+		right: 13px;
+		color: #000;
+		text-decoration: none;
+		font-size: 18px;
+		&:hover {
+			color: #ff0000;
+		}
+	}
+	.guess-text {
+        margin: 8px 16px;
+        padding: 4px;
+        margin-top: 15px;
+		font-size: 15px;
+		border-radius: 9px;
+		background: linear-gradient(145deg, #e6e6e6, #ffffff);
+		box-shadow: 5px 5px 10px #dedede, -5px -5px 10px #ffffff;
+	}
+    button {
+        font-size: 14px;
+        padding: 6px 8px;
+    }
+    .correct-label * {
+        display: inline-block;
+    }
+}
