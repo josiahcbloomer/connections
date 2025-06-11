@@ -32,7 +32,6 @@ class WaitingAnimation {
 	}
 
 	animate() {
-		// Clear with slight alpha for trail effect
 		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
 
 		this.particles.forEach(particle => {
@@ -50,7 +49,7 @@ class WaitingAnimation {
 			this.ctx.translate(particle.x, particle.y)
 			this.ctx.rotate(particle.rotation)
 
-			// Draw a fun shape (star)
+			// Draw a fun shape (hexagon)
 			this.ctx.beginPath()
 			for (let i = 0; i < 5; i++) {
 				const angle = (i * Math.PI * 2) / 5
@@ -65,25 +64,6 @@ class WaitingAnimation {
 
 			this.ctx.restore()
 		})
-
-		// Add some interactivity between particles
-		for (let i = 0; i < this.particles.length; i++) {
-			for (let j = i + 1; j < this.particles.length; j++) {
-				const dx = this.particles[i].x - this.particles[j].x
-				const dy = this.particles[i].y - this.particles[j].y
-				const distance = Math.sqrt(dx * dx + dy * dy)
-
-				if (distance < 100) {
-					this.ctx.beginPath()
-					this.ctx.strokeStyle = this.particles[i].color
-					this.ctx.globalAlpha = 1 - distance / 100
-					this.ctx.moveTo(this.particles[i].x, this.particles[i].y)
-					this.ctx.lineTo(this.particles[j].x, this.particles[j].y)
-					this.ctx.stroke()
-					this.ctx.globalAlpha = 1
-				}
-			}
-		}
 
 		requestAnimationFrame(() => this.animate())
 	}
