@@ -30,6 +30,10 @@ teamNameSubmit.addEventListener("click", () => {
     socket.emit("create-team", { name: teamNameInput.value })
 })
 
+window.addEventListener("focus", () => {
+    socket.emit("join-team", teamID)
+})
+
 guessInput.addEventListener("input", () => {
     sendUnfinishedGuess()
 })
