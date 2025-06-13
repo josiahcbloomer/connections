@@ -138,10 +138,10 @@ function renderTeams(game, teams) {
 					let guessInfo = document.createElement("p")
 					guessInfo.classList.add("guess-info")
 					guessInfo.textContent = `Correct Category: ${
-						guess.category && round.board[guess.category].description.toUpperCase()
+						guess.category !== null && round.board[guess.category].description.toUpperCase()
 					}`
 					console.log(guess.category)
-					if (guess.category) teamGuessContainer.appendChild(guessInfo)
+					if (guess.category !== null) teamGuessContainer.appendChild(guessInfo)
 
 					teamElement.appendChild(teamGuessContainer)
 
@@ -156,7 +156,7 @@ function renderTeams(game, teams) {
 						let guessCorrect = document.createElement("input")
 						guessCorrect.type = "checkbox"
 						guessCorrect.checked = guess.correct
-						guessCorrect.disabled = (!guess.category) || hasAssignedPoints // if their guess is invalid, disable
+						guessCorrect.disabled = (guess.category === null) || hasAssignedPoints // if their guess is invalid, disable
 						guessCorrect.addEventListener("change", () => {
                             console.log(team, guessCorrect.checked)
 							socket.emit("update-guess-correct", {
