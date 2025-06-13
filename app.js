@@ -310,6 +310,7 @@ io.on("connection", socket => {
         }
 
         sendGame()
+        io.emit("refresh")
         await fs.writeFile("./data/teams.json", JSON.stringify(teams, null, 4))
         console.log("Removed team:", team)
     })

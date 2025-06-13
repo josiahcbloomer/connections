@@ -25,6 +25,8 @@ let waitingCanvas = document.querySelector("#waitingAnimation")
 let waitingAnimation
 
 teamNameSubmit.addEventListener("click", () => {
+    if (!teamNameInput.value.length) return console.log("No team name provided")
+        
     socket.emit("create-team", { name: teamNameInput.value })
 })
 
