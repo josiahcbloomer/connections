@@ -5,17 +5,32 @@ body {
 }
 
 .main {
-  width: 800px;
+  width: 1150px;
   display: none;
+  flex-wrap: nowrap;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
 }
 .main.active {
-  display: block;
+  display: flex;
+}
+
+.board-left {
+  width: 800px;
+}
+
+.board-right {
+  padding: 20px;
+  width: 300px;
+  margin-left: 50px;
 }
 
 .wait h1 {
   text-transform: uppercase;
   font-size: 60px;
   margin-bottom: 25px;
+  margin-top: 0;
 }
 .wait h3 {
   margin: 0;
@@ -31,12 +46,9 @@ body {
   width: 300px;
 }
 
-.scores {
-  margin-top: 50px;
-}
 .scores table {
   margin: 20px auto;
-  min-width: 500px;
+  width: 100%;
   border-collapse: collapse;
 }
 .scores td,
@@ -46,6 +58,12 @@ body {
   font-size: 20px;
   padding: 14px;
 }
-.scores tr:nth-child(even) {
-  background: #ddd;
+.scores .crown {
+  display: none;
+  height: 22px;
+  margin: 0;
+  margin-left: 10px;
+}
+.scores tr.submitted {
+  background: rgb(193, 255, 215);
 }

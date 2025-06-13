@@ -39,7 +39,7 @@ function renderBoard({ revealed, scrambled }) {
 }
 
 function renderScores({ game, teams }) {
-    scoresTable.innerHTML = `<tr><th>Team</th><th>Score</th><th>Guess In?</th></tr>`
+    scoresTable.innerHTML = `<tr><th>Leaderboard</th><th></th></tr>`
 
     let teamList = []
     for (let teamID in teams) {
@@ -65,7 +65,6 @@ function renderScores({ game, teams }) {
         let row = document.createElement("tr")
         let name = document.createElement("td")
         let score = document.createElement("td")
-        let guess = document.createElement("td")
 
         if (!team.connected) continue
 
@@ -74,9 +73,16 @@ function renderScores({ game, teams }) {
 
         name.textContent = team.name
         score.textContent = team.score
-        guess.textContent = turn[team.id] ? "Yes" : "No"
 
-        row.append(name, score, guess)
+        if (turn[team.id] && turn[team.id].submitted) {
+            row.classList.add("submitted")
+        }
+
+        if (teamList.indexOf(team) === 0) {
+            row.classList.add("first")
+        }
+
+        row.append(name, score)
         scoresTable.append(row)
     }
 }

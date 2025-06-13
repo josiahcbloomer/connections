@@ -3,25 +3,31 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Connections</title>
+		<title>Board | Connections</title>
 
 		<link rel="stylesheet" href="/style.css" />
 		<link rel="stylesheet" href="./style.css" />
 	</head>
 	<body>
 		<div class="main game">
-			<div class="board"></div>
-            <div class="scores">
-                <table></table>
-            </div>
+			<div class="board-left">
+				<div class="board"></div>
+			</div>
+			<div class="board-right">
+				<div class="scores">
+					<table></table>
+				</div>
+			</div>
 		</div>
-        <div class="main wait">
-            <h1>Fun Times</h1>
-            <h3>Join now at</h3>
-            <h2>connections.josiah.games</h2>
-            <h3>(one device per team)</h3>
-            <img src="/QR.svg" class="qr">
-        </div>
+		<div class="main wait">
+			<div>
+				<h1>Fun Times</h1>
+				<h3>Join now at</h3>
+				<h2>connections.josiah.games</h2>
+				<h3>(one device per team)</h3>
+				<img src="/QR.svg" class="qr" />
+			</div>
+		</div>
 
 		<script src="/socket.io/socket.io.js"></script>
 		<script src="./script.js"></script>
