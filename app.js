@@ -10,6 +10,8 @@ initSocket(server)
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
+app.get("/control", (req, res) => res.redirect("/admin"))
+
 app.use(express.static("public"))
 
 let game = JSON.parse(await fs.readFile("./data/game.json"))
