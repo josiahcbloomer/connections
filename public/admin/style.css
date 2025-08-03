@@ -20,19 +20,26 @@
     text-align: left;
 }
 .main > .right {
-	width: 450px;
+	width: 800px;
 	height: 100vh;
 	flex-shrink: 0;
 	flex-grow: 0;
 	padding: 15px;
-    overflow-y: auto;
+    /* overflow-y: auto; */
+}
+
+.teams-list {
+    
+    display: grid;
+    /* grid layout 2 wide */
+    grid-template-columns: repeat(2, 1fr);
 }
 
 .main > .right .team {
 	position: relative;
 	background: #fff;
 	padding: 15px 5px;
-	margin: 15px 0;
+	margin: 15px 3px;
 	border-radius: 15px;
 	box-shadow: inset 28px 28px 60px #dedede, inset -28px -28px 60px #ffffff;
 
